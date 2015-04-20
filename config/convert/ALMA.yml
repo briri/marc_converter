@@ -1,0 +1,40 @@
+mapping:
+  local_catalog_id:    '001'
+  lccn:                '010$a'
+  print_issn:          ['022$a', '020$a']
+  oclc_number:         '035$a'
+  lc_class:            '050$a'
+  subject:             '650$a'
+  location_code:       '852$c'
+  holdings_statement:  ['863$i', '866$a', '863$a']
+
+record_identifier:     'local_catalog_id'
+
+split_holdings_on:     ['852$c']
+
+# -------------------------------------------------------------
+reject_record_if:
+  # LDR/05 = d OR LDR/06-07 != as
+  leader:
+    matches:     '^.{5}[dD]'
+    not_matches: '^.{6}[aA][sS]'
+
+  # Missing 001, 022, AND 035
+  fields: 
+    missing_all: ['001', '035', '022']
+
+# -------------------------------------------------------------
+conversion_rules:
+  # oclc number starts with (OCoLC) or matches ocm/ocn
+  oclc_number:
+    specific_entry:     {'position': 'first'}
+    matches:            '^\(?[oO][cC]((oLC)|([mMnN]))\)?'
+
+  issn:
+    matches:            '\d{4}-\d{4}'
+
+  subject:
+    specific_entry:     {'position': 'first'}
+
+  holdings_statement:
+    specific_entry:     {'position': 'first', 'order': ['863$i', '866$a', '863$a']}

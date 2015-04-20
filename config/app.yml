@@ -1,0 +1,74 @@
+bib_definition:
+  - print_issn
+  - lccn
+  - oclc_number
+  - eissn
+  - title
+  - publisher
+  - publication_history
+  - lc_class
+  - subject
+  - subject_code
+
+bib_identifiers:
+  - print_issn
+  - oclc_number
+
+holding_definition:
+  - oclc_symbol
+  - location_code
+  - local_catalog_id
+  - holdings_record_id
+  - holdings_statement
+  - gaps_statement
+  - summary_holdings
+  - normalized_holdings
+  - normalized_gaps
+
+holding_identifiers:
+  - oclc_symbol
+  - location_code
+  - holdings_statement
+
+exports_to_marc:
+  papr:
+    # identifiers
+    oclc_number:         '001'
+    lccn:                '010$a'
+    print_issn:          '022$a'
+    local_catalog_id:    '901$a'
+    holdings_record_id:  '035$a'
+    
+    issn_linking:        '022$l'
+    issn_former:         '780$x'
+    issn_succeeding:     '785$x'
+
+    # classification
+    lc_class:            '050$a'
+    subject:             '650$a'
+
+    # publisher
+    corporate_name:      '110$a'
+    publisher_name:      '260$b'
+    publication_history: '362$a'
+
+    # title
+    title_uniform:       '130$a'
+    title_key:           '222$a'
+    title:               '245$a'
+    title_varying:       '246$a'
+    title_former:        '780$t'
+    title_succeeding:    '785$t'
+
+    #holdings
+    oclc_symbol:         '852$a'
+    location_code:       '852$b'
+    holdings:            '895$a'
+
+
+rejection_rule_types: ['leader', 'fields']
+
+preprocessor_types: ['matches', 'not_matches']
+
+postprocessor_types: ['constant', 'specific_entry', 'missing_all']
+
