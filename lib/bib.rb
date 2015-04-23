@@ -6,13 +6,13 @@ module Cdl
   
     # ---------------------------------------------------
     def initialize()
-      @holdings, @identifiers = [], [], []
+      @holdings, @identifiers = [], []
       
       # Construct the fields and identifiers based on the configuration settings
       $app_config['bib_definition'].each do |fld|
         instance_variable_set("@#{fld}", Cdl::Field.new(fld))
         
-        @identifiers << instance_variable_get("@#{fld}") if $app_config['bib_identifiers'].include?(fld)
+        @identifiers << instance_variable_get("@#{fld}").name if $app_config['bib_identifiers'].include?(fld)
       end
     end
     
@@ -31,7 +31,7 @@ module Cdl
         instance_variable_set("@#{attr}", fld)
       end
     end
-    
+
     # ---------------------------------------------------
     def each
       @holdings.each do |hld|
@@ -58,15 +58,23 @@ module Cdl
         out = false
         
         # Test each identifier until we find a match
-        @identifiers.each do |id|
-          out = (id.value == other.instance_variable_get("@#{id.name}").value) unless out
+        @identifiers.each do |name|
+          my_var = instance_variable_get("@#{name}")
+          other_var = other.instance_variable_get("@#{name}")
+          
+          unless other_var.nil?
+            my_var.values.each do |val|
+              out = other_var.values.include?(val) unless out
+            end
+          end
         end
-      
+          
         out
+        
       else
         false
       end
     end
-    
+     
   end
 end

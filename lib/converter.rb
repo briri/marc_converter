@@ -2,6 +2,9 @@ require 'marc'
 
 require_relative './bib.rb'
 require_relative './holding.rb'
+require_relative './field.rb'
+require_relative './value.rb'
+
 
 Dir["./lib/processors/*.rb"].each {|file| require file }
 Dir["./lib/conversion/*.rb"].each {|file| require file }
@@ -22,7 +25,6 @@ module Cdl
       unless reject?(marc_record)
         bib = marc_to_object(marc_record, "Bib")
 
-puts "--------------------------------------------------------------------------------------"
         bib << split_holdings(marc_record)
       
 #puts "OCLC Numbers: #{bib.find('oclc_number').values.inspect}"
@@ -154,7 +156,7 @@ puts "--------------------------------------------------------------------------
     def merge_marc_bib_holdings(new_marc_rec, old_marc_rec)
       out = MARC::Record.new()
       
-      # Get all of the fields from the original record that are not 
+      # Get all of the fields from the original record that are not in the new record
       old_marc_rec.each do |field|
         if new_marc_rec[field.tag].nil? and $conversion_config.mappings['holding'][field.tag].nil?
           out << field

@@ -1,3 +1,5 @@
+extends: 'PAPR'
+
 mapping:
   local_catalog_id:    '001'
   lccn:                '010$a'
@@ -29,9 +31,6 @@ conversion_rules:
   oclc_number:
     specific_entry:     {'position': 'first'}
     matches:            '^\(?[oO][cC]((oLC)|([mMnN]))\)?'
-
-  issn:
-    matches:            '\d{4}-\d{4}'
 
   subject:
     specific_entry:     {'position': 'first'}

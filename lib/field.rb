@@ -44,7 +44,7 @@ module Cdl
     
     # -----------------------------------------------------
     def to_s
-      "#{@name} => #{@value}"
+      "#{@name} => #{@values}"
     end
     
     # -----------------------------------------------------
@@ -71,23 +71,20 @@ module Cdl
     
     # -----------------------------------------------------
     def values()
-      out = []
+      if @postprocessors.empty?
+        @values
+        
+      else
+        out = []
       
-      @postprocessors.each do |processor|
-        out << processor.process(@values)
+        @postprocessors.each do |processor|
+          out << processor.process(@values)
+        end
+      
+        out
       end
-      
-      out
     end
     
   end
   
-  # ======================================================================
-  class Value
-    attr_accessor :val, :marc_source 
-    
-    def initialize(value, source)
-      @val, @marc_source = value, source
-    end
-  end
 end

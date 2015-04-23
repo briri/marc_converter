@@ -9,6 +9,7 @@ bib_definition:
   - lc_class
   - subject
   - subject_code
+  - last_transaction
 
 bib_identifiers:
   - print_issn
@@ -33,42 +34,42 @@ holding_identifiers:
 exports_to_marc:
   papr:
     # identifiers
-    oclc_number:         '001'
-    lccn:                '010$a'
-    print_issn:          '022$a'
-    local_catalog_id:    '901$a'
-    holdings_record_id:  '035$a'
+    oclc_number:         {field: '001'}
+    lccn:                {field: '010$a', repeatable_subfield: false}
+    print_issn:          {field: '022$a', repeatable_subfield: false}
+    local_catalog_id:    {field: '901$a', repeatable_subfield: false}
+    holdings_record_id:  {field: '035$a', repeatable_subfield: false}
     
-    issn_linking:        '022$l'
-    issn_former:         '780$x'
-    issn_succeeding:     '785$x'
+    issn_linking:        {field: '022$l', repeatable_subfield: false}
+    issn_former:         {field: '780$x', repeatable_subfield: false}
+    issn_succeeding:     {field: '785$x', repeatable_subfield: false}
 
     # classification
-    lc_class:            '050$a'
-    subject:             '650$a'
+    lc_class:            {field: '050$a', repeatable_subfield: false}
+    subject:             {field: '650$a', repeatable_subfield: false}
 
     # publisher
-    corporate_name:      '110$a'
-    publisher_name:      '260$b'
-    publication_history: '362$a'
+    corporate_name:      {field: '110$a', repeatable_subfield: false}
+    publisher_name:      {field: '260$b', repeatable_subfield: false}
+    publication_history: {field: '362$a', repeatable_subfield: false}
 
     # title
-    title_uniform:       '130$a'
-    title_key:           '222$a'
-    title:               '245$a'
-    title_varying:       '246$a'
-    title_former:        '780$t'
-    title_succeeding:    '785$t'
+    title_uniform:       {field: '130$a', repeatable_subfield: false}
+    title_key:           {field: '222$a', repeatable_subfield: false}
+    title:               {field: '245$a', repeatable_subfield: false}
+    title_varying:       {field: '246$a', repeatable_subfield: false}
+    title_former:        {field: '780$t', repeatable_subfield: false}
+    title_succeeding:    {field: '785$t', repeatable_subfield: false}
 
     #holdings
-    oclc_symbol:         '852$a'
-    location_code:       '852$b'
-    holdings:            '895$a'
+    oclc_symbol:         {field: '852$a', repeatable_subfield: false}
+    location_code:       {field: '852$b', repeatable_subfield: false}
+    holdings_statement:  {field: '895$a', repeatable_subfield: false}
 
 
 rejection_rule_types: ['leader', 'fields']
 
 preprocessor_types: ['matches', 'not_matches']
 
-postprocessor_types: ['constant', 'specific_entry', 'missing_all']
+postprocessor_types: ['constant', 'specific_entry', 'missing_all', 'replace']
 

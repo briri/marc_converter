@@ -5,13 +5,13 @@ module Cdl
     
     # ------------------------------------------------
     def initialize(value)
-      @value = value
+      @value = value['value']
     end
     
     # Just return the constant
     # ------------------------------------------------
     def process(item)
-      @value
+      Cdl::Value.new(@value)
     end
     
   end

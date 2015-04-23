@@ -1,0 +1,9 @@
+
+# -------------------------------------------------------------
+conversion_rules:
+  # oclc number starts with (OCoLC) or matches ocm/ocn
+  oclc_number:
+    replace:     {find: '^\(?[oO][cC](oLC|[mMnN])\)?', value: ''}
+
+  issn:
+    matches:            '\d{4}-\d{4}'
