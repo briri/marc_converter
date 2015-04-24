@@ -6,6 +6,7 @@ import:
   marc:
     titles:                  ['245$a', '245$b', '245$c', '246$a', '246$b']
     short_titles:            ['130$a', '240$a', '222$a', '222$b']
+    authors:                 ['700$a', '700$d']
     gov_doc_values:          ['074$a', '086$a']
 
     corporate_names:         ['110$a', '110$b', '710$a', '710$b']
@@ -19,7 +20,7 @@ import:
     former_issns:            ['780$x', '785$x']
 
   # -------------------------------------------------------------
-  move_as_is:                ['005', '008']
+  move_as_is:                ['005', '008', '010', '530', '580', '651', '655', '700', '776', '978']
 
   # -------------------------------------------------------------
   # conversion_rules definitions here do NOT OVERRIDE definition defined in the extended yml!

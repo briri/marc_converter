@@ -28,6 +28,7 @@ module Cdl
       
         @record_merge_identifier = base.record_merge_identifier
         @split_on_fields = base.split_on_fields
+        @move_as_is = base.move_as_is
         
         @import_mappings = base.import_mappings
         @import_conversion_rules = base.import_conversion_rules

@@ -23,7 +23,7 @@ reader.process
 
 reader.bibs.each do |bib|
   puts bib.to_s
-  puts bib.data_as_is
+#  puts bib.data_as_is
   puts "--------------------------------------------"
 end
 

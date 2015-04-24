@@ -82,7 +82,7 @@ module Cdl
           end
           
         else
-          unless self.instance_variable_get("#{var}").empty?
+          unless self.instance_variable_get("#{var}").empty? or var.id2name.eql?("@data_as_is")
             out = out + attr_prefix + "#{var} => #{self.instance_variable_get("#{var}")}\n" 
           end
         end

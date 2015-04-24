@@ -6,6 +6,7 @@ import:
     oclc_numbers:        ['035$a']
     location_code:       ['852$c']
     holdings_statement:  ['863$i', '866$a', '863$a']
+    holdings_record_id:  ['978$a']
 
   # -------------------------------------------------------------
   record_identifier:     'local_catalog_id'

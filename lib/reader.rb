@@ -65,7 +65,6 @@ private
         if !$conversion_config.import_mappings['marc'][marc_field.tag].nil?
           
           $conversion_config.import_mappings['marc'][marc_field.tag].each do |hash|
-            
             unless bib.instance_variable_get("@#{hash[:target]}").nil?
               vals = bib.instance_variable_get("@#{hash[:target]}")
 
@@ -173,6 +172,7 @@ private
       #puts "Current: #{current_vals}"
       
       $conversion_config.import_mappings['marc'][marc_field.tag].each do |hash|
+
         hash[:subfield].each do |sf|
           # Control Field so just get the value
           if sf.eql?("")
@@ -209,10 +209,10 @@ private
     # ----------------------------------------------------------------
     def merge_marc_bib_holdings(new_marc_rec, old_marc_rec)
       out = MARC::Record.new()
-      
+
       # Get all of the fields from the original record that are not in the new record
       old_marc_rec.each do |field|
-        if new_marc_rec[field.tag].nil? and $conversion_config.import_mappings['marc'][field.tag].nil?
+        if new_marc_rec[field.tag].nil? #and $conversion_config.import_mappings['marc'][field.tag].nil?
           out << field
         end
       end
