@@ -1,5 +1,6 @@
 extends: 'ALMA'
 
-conversion_rules:
-  oclc_symbol:
-    constant: {'value': 'WAU'}
+import:
+  conversion_rules:
+    oclc_symbol:
+      constant: {'value': 'WAU'}

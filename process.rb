@@ -1,11 +1,11 @@
 require 'yaml'
 require 'marc'
 
-require_relative './lib/converter.rb'
 require_relative './lib/conversion_config.rb'
-require_relative './lib/writer.rb'
+#require_relative './lib/writer.rb'
 
-require_relative './lib/conversion/normalizer.rb'
+require_relative './lib/helper.rb'
+require_relative './lib/reader.rb'
 
 # -----------------------------------------------------------------------
 # Start the job
@@ -15,32 +15,18 @@ $conversion_config = Cdl::ConversionConfig.new(YAML.load_file("./config/convert/
 
 puts "Started: #{Time.now}."
 
-# Define the Converter 
-converter = Cdl::Converter.new()
+#puts $conversion_config.inspect
 
-bibs = []
-reader = MARC::Reader.new(ARGV[1])#, :external_encoding => "MARC-8")
+reader = Cdl::MarcReader.new(ARGV[1])
 
-reader.each do |record|  
-  bib = converter.convert(record)
+reader.process
 
-  # Do merge handling here and identify duplicates!
-#  if bibs.include?(bib)
-#    puts "Duplicate records detected for: #{bib.identifiers.collect{|x| "#{x.to_s}"}.join(', ')}" 
-#  else
-    bibs << bib
-#  end
-  
+reader.bibs.each do |bib|
+  puts bib.to_s
+  puts bib.data_as_is
+  puts "--------------------------------------------"
 end
 
-writer = Cdl::Writer.new('papr', '/mnt/source_data/2014/holdings/converted/OUT.mrc')
-
-bibs.each do |bib|
-  writer.write(bib)
-end
-
-writer.flush()
-
-puts "Rejected records: #{converter.rejections.count}"
+#puts "Rejections: #{reader.rejections}"
 
 puts "Finished: #{Time.now}."

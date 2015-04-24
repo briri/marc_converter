@@ -1,0 +1,8 @@
+# -------------------------------------------------------------
+import:
+
+  # -------------------------------------------------------------
+  conversion_rules:
+    # remove all non-printable characters
+    ALL:
+      replace:             {find: '^[:print:]', value: ''}

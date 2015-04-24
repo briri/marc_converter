@@ -9,13 +9,24 @@ module Cdl
     end
     
     # ------------------------------------------------
-    def process(item)
-      if item.is_a?(Cdl::Value) and !item.val.nil?
-        !item.val.match(@regex).nil?
+    # Returns the item(s) if it matched and an empty string if it did not
+    def process(items)      
+      if items.is_a?(Array)
+        out = []
         
+        items.each do |item|
+          out << !item.match(@regex).nil?
+        end
+      
+        out
+        
+      elsif items.is_a?(String)
+        !items.match(@regex).nil?
+      
       else
-        false
+        items
       end
+      
     end
     
   end

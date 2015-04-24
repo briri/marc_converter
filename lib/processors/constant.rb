@@ -10,8 +10,12 @@ module Cdl
     
     # Just return the constant
     # ------------------------------------------------
-    def process(item)
-      Cdl::Value.new(@value)
+    def process(items)
+      if items.is_a?(Array)
+        [@value]
+      else
+        @value
+      end
     end
     
   end

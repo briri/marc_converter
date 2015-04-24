@@ -1,52 +1,48 @@
 module Cdl
   class Holding
   
-    attr_accessor :identifiers
+    attr_accessor :oclc_symbol, :location_code, :local_catalog_id, :holdings_record_id
+    
+    attr_accessor :holdings_statement, :holdings_summary, :holdings_original
+    
+    attr_accessor :gaps_statement, :gaps_summary, :gaps_original
   
     # ---------------------------------------------------
     def initialize()
-      @identifiers = []
+      @oclc_symbol, @location_code, @local_catalog_id, @holdings_record_id = "", "", "", ""
       
-      # Construct the fields and identifiers based on the configuration settings
-      $app_config['holding_definition'].each do |fld|
-        instance_variable_set("@#{fld}", Cdl::Field.new(fld))
-        
-        @identifiers << instance_variable_get("@#{fld}") if $app_config['holding_identifiers'].include?(fld)
-      end
+      @holdings_statement, @holdings_summary, @holdings_original = "", "", ""
       
-    end
-
-    # ---------------------------------------------------
-    def find(attr)
-      instance_variable_get("@#{attr}")
-    end
-    
-    # ---------------------------------------------------
-    def set_value(attr, value, source)
-      unless instance_variable_get("@#{attr}").nil?
-        fld = instance_variable_get("@#{attr}")
-        
-        fld << Value.new(value, source)
-        
-        instance_variable_set("@#{attr}", fld)
-      end
+      @gaps_statement, @gaps_summary, @gaps_original = "", "", ""
     end
 
     # ---------------------------------------------------
     def ==(other)
-      # If the item passed in is the correct type
-      if other.kind_of?(self.class)
-        out = true
-        
-        # All identifiers must match!
-        @identifiers.each do |id|
-          out = (id.value == other.instance_variable_get("@#{id.name}").value) if out
-        end
+      out = false
       
+      # If the item passed in is the correct type
+      if other.kind_of?(Cdl.Holding)
+        out = other.oclc_symbol.eql?(@oclc_symbol) and other.location_code.eql?(@location_code)
+        
+        out = (other.local_catalog_id.eql?(@local_catalog_id) or other.holdings_record_id.eql?(@holdings_record_id)) if out
+        
         out
-      else
-        false
       end
+      
+      out
+    end
+    
+    # ---------------------------------------------------
+    def to_s
+      out, attr_prefix = "    Cdl::Holding - \n", "        "
+      
+      self.instance_variables.each do |var|
+        unless self.instance_variable_get("#{var}").empty?
+          out = out + attr_prefix + "#{var} => #{self.instance_variable_get("#{var}")}\n" 
+        end
+      end
+      
+      out
     end
     
   end

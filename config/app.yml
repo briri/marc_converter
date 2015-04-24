@@ -1,75 +1,15 @@
-bib_definition:
-  - print_issn
-  - lccn
-  - oclc_number
-  - eissn
-  - title
-  - publisher
-  - publication_history
-  - lc_class
-  - subject
-  - subject_code
-  - last_transaction
 
-bib_identifiers:
-  - print_issn
-  - oclc_number
+rejection_types: 
+  - 'fields'
+  - 'leader'
 
-holding_definition:
-  - oclc_symbol
-  - location_code
-  - local_catalog_id
-  - holdings_record_id
-  - holdings_statement
-  - gaps_statement
-  - summary_holdings
-  - normalized_holdings
-  - normalized_gaps
-
-holding_identifiers:
-  - oclc_symbol
-  - location_code
-  - holdings_statement
-
-exports_to_marc:
-  papr:
-    # identifiers
-    oclc_number:         {field: '001'}
-    lccn:                {field: '010$a', repeatable_subfield: false}
-    print_issn:          {field: '022$a', repeatable_subfield: false}
-    local_catalog_id:    {field: '901$a', repeatable_subfield: false}
-    holdings_record_id:  {field: '035$a', repeatable_subfield: false}
-    
-    issn_linking:        {field: '022$l', repeatable_subfield: false}
-    issn_former:         {field: '780$x', repeatable_subfield: false}
-    issn_succeeding:     {field: '785$x', repeatable_subfield: false}
-
-    # classification
-    lc_class:            {field: '050$a', repeatable_subfield: false}
-    subject:             {field: '650$a', repeatable_subfield: false}
-
-    # publisher
-    corporate_name:      {field: '110$a', repeatable_subfield: false}
-    publisher_name:      {field: '260$b', repeatable_subfield: false}
-    publication_history: {field: '362$a', repeatable_subfield: false}
-
-    # title
-    title_uniform:       {field: '130$a', repeatable_subfield: false}
-    title_key:           {field: '222$a', repeatable_subfield: false}
-    title:               {field: '245$a', repeatable_subfield: false}
-    title_varying:       {field: '246$a', repeatable_subfield: false}
-    title_former:        {field: '780$t', repeatable_subfield: false}
-    title_succeeding:    {field: '785$t', repeatable_subfield: false}
-
-    #holdings
-    oclc_symbol:         {field: '852$a', repeatable_subfield: false}
-    location_code:       {field: '852$b', repeatable_subfield: false}
-    holdings_statement:  {field: '895$a', repeatable_subfield: false}
-
-
-rejection_rule_types: ['leader', 'fields']
-
-preprocessor_types: ['matches', 'not_matches']
-
-postprocessor_types: ['constant', 'specific_entry', 'missing_all', 'replace']
+processor_types: 
+  - 'concatenate' 
+  - 'constant'
+  - 'matches'
+  - 'missing_all'
+  - 'not_matches'
+  - 'replace'
+  - 'specific_entry'
+  - 'truncate'
 

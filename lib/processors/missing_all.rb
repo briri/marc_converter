@@ -9,13 +9,13 @@ module Cdl
     end
     
     # ------------------------------------------------
-    def process(item)
+    def process(items)
       out = true
-      
+
       @array.each do |i|
-        out = false if item.val.include?(i)
+        out = !items.include?(i) if out
       end
-      
+
       out
     end
     

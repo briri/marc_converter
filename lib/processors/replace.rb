@@ -12,11 +12,19 @@ module Cdl
     # ------------------------------------------------
     def process(items)          
       if items.is_a?(Array)
+        out = []
+        
         items.each do |item|
-          if item.is_a?(Cdl::Value) and !item.val.nil?
-            item.val = item.val.gsub(/#{@regex}/, @value)
-          end
+          out << item.gsub(/@regex/, @value) unless item.nil?
         end
+      
+        out
+        
+      elsif items.is_a?(String)
+        items.gsub(/@regex/, @value)
+      
+      else
+        items
       end
       
     end

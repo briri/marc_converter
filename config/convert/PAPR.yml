@@ -1,9 +1,112 @@
+extends: "BASE"
 
 # -------------------------------------------------------------
-conversion_rules:
-  # oclc number starts with (OCoLC) or matches ocm/ocn
-  oclc_number:
-    replace:     {find: '^\(?[oO][cC](oLC|[mMnN])\)?', value: ''}
+import:
+  # from_marc mappings here OVERRIDE mappings defined in the extended yml!
+  marc:
+    titles:                  ['245$a', '245$b', '245$c', '246$a', '246$b']
+    short_titles:            ['130$a', '240$a', '222$a', '222$b']
+    gov_doc_values:          ['074$a', '086$a']
 
-  issn:
-    matches:            '\d{4}-\d{4}'
+    corporate_names:         ['110$a', '110$b', '710$a', '710$b']
+    publishers:              ['260$b']
+    publication_histories:   ['362$a']
+
+    subjects:                ['650$ALL']
+    lc_classes:              ['050$a', '050$b', '060$a', '060$b']
+
+    former_titles:           ['780$t', '785$t']
+    former_issns:            ['780$x', '785$x']
+
+  # -------------------------------------------------------------
+  move_as_is:                ['005', '008']
+
+  # -------------------------------------------------------------
+  # conversion_rules definitions here do NOT OVERRIDE definition defined in the extended yml!
+  conversion_rules:
+    pissns:
+      matches:               '\d{4}-\d{4}'
+
+# -------------------------------------------------------------
+export:
+  # to_marc mappings here OVERRIDE mappings defined in the extended yml!
+  marc:
+    oclc_numbers:            '001'
+    lccns:                   '010$a'
+    pissns:                  '022$a'
+    linking_issns:           '022$l'
+    holdings_record_id:      '035$a'
+    lc_classes:              '050$a'
+    gov_doc_values:          '074$a'
+    corporate_names:         '110$a'
+    short_titles:            '130$a'
+    titles:                  '245$a'
+    short_titles:            '240$a'
+    publishers:              '260$b'
+    publication_histories:   '362$a'
+    subjects:                '650$a'
+    former_titles:           '780$t'
+    former_issns:            '780$x'
+    oclc_symbol:             '852$a'
+    location_code:           '852$b'
+    holdings_statement:      '895$a'
+    local_catalog_id:        '901$a'
+
+  # -------------------------------------------------------------
+  # conversion_rules definitions here do NOT OVERRIDE definition defined in the extended yml!
+  conversion_rules:
+    oclc_numbers:
+      replace:            {find: '^\(?[oO][cC](oLC|[mMnN])\)?', value: ''}
+      specific_entry:     {'position': 'first'}
+      truncate:              16
+
+    lccns:
+      truncate:              32
+
+    pissns:
+      truncate:              16
+
+    local_catalog_id:
+      truncate:              32
+
+    other_ids:
+      concatenate:           {delimiter: ' '}
+      truncate:              32
+
+    titles:
+      truncate:              512
+
+    short_titles:
+      truncate:              128
+
+    gov_doc_values:
+      truncate:              32
+
+    corporate_names:
+      truncate:              256
+      specific_entry:        {'position': 'first', 
+                              'order': ['110$a', '110$b', '710$a', '710$b']}
+
+    publishers:
+      truncate:              512
+
+    publication_histories:
+      truncate:              256
+
+    subjects:
+      truncate:              128
+      concatenate:           {delimiter: ' '}
+
+    lc_classes:
+      truncate:              32
+      specific_entry:        {'position': 'first', 
+                              'order': ['050$ALL', '090$ALL']}
+
+    location_code:
+      truncate:              32
+
+    oclc_symbol:
+      truncate:              16
+
+    holdings_statements:
+      concatenate:           {delimiter: ' '}

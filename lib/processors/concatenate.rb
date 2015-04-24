@@ -1,30 +1,29 @@
 module Cdl
-  class NotMatches
-    
-    attr_accessor :regex
-    
+  class Concatenate
+    attr_accessor :delimiter
+
     # ------------------------------------------------
-    def initialize(value)
-      @regex = value
+    def initialize(delimiter=" ")
+      @delimiter = delimiter
     end
-    
+
     # ------------------------------------------------
-    def process(items)
+    def process(items)          
       if items.is_a?(Array)
-        out = []
+        out = ""
         
         items.each do |item|
-          out << item.match(@regex).nil?
+          if item.is_a?(String)
+            out = out + (item.strip.nil? ? item : item.strip)
+          end
         end
-      
+        
         out
         
-      elsif items.is_a?(String)
-        items.match(@regex).nil?
-      
       else
         items
       end
+  
     end
     
   end

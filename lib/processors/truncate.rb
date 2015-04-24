@@ -1,30 +1,32 @@
 module Cdl
-  class NotMatches
-    
-    attr_accessor :regex
-    
+  class Truncate
+    attr_accessor :size
+
     # ------------------------------------------------
-    def initialize(value)
-      @regex = value
+    def initialize(size=1)
+      @size = size
     end
-    
+
     # ------------------------------------------------
-    def process(items)
+    def process(items)          
       if items.is_a?(Array)
         out = []
         
         items.each do |item|
-          out << item.match(@regex).nil?
+          if item.is_a?(String)
+            out << item.slice(0..@size)
+          end
         end
-      
+        
         out
         
       elsif items.is_a?(String)
-        items.match(@regex).nil?
-      
+        items.slice(0..@size)
+        
       else
         items
       end
+  
     end
     
   end

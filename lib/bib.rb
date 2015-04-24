@@ -1,37 +1,30 @@
 module Cdl
   class Bib
     
-    attr_accessor :identifiers
-    attr_accessor :holdings
-  
-    # ---------------------------------------------------
-    def initialize()
-      @holdings, @identifiers = [], []
-      
-      # Construct the fields and identifiers based on the configuration settings
-      $app_config['bib_definition'].each do |fld|
-        instance_variable_set("@#{fld}", Cdl::Field.new(fld))
-        
-        @identifiers << instance_variable_get("@#{fld}").name if $app_config['bib_identifiers'].include?(fld)
-      end
-    end
-    
-    # ---------------------------------------------------
-    def find(attr)
-      instance_variable_get("@#{attr}")
-    end
-    
-    # ---------------------------------------------------
-    def set_value(attr, value, source)
-      unless instance_variable_get("@#{attr}").nil?
-        fld = instance_variable_get("@#{attr}")
-        
-        fld << Value.new(value, source)
-        
-        instance_variable_set("@#{attr}", fld)
-      end
-    end
+    attr_accessor :pissns, :eissns, :lccns, :oclc_numbers
 
+    attr_accessor :titles, :short_titles, :gov_doc_values
+    
+    attr_accessor :corporate_names, :publishers, :publication_histories
+  
+    attr_accessor :subject_codes, :lc_classes, :subjects
+    
+    attr_accessor :linking_issns, :former_issns, :former_titles
+    
+    attr_accessor :holdings, :data_as_is
+    
+    # ---------------------------------------------------
+    def initialize
+      @pissns, @eissns, @lccns, @oclc_numbers = [], [], [], []
+      @titles, @short_titles, @gov_doc_values = [], [], []
+      @corporate_names, @publishers, @publication_histories = [], [], []
+      @subject_codes, @lc_classes, @subjects = [], [], []
+      
+      @linking_issns, @former_issns, @former_titles = [], [], []
+      
+      @holdings, @data_as_is = [], []
+    end
+    
     # ---------------------------------------------------
     def each
       @holdings.each do |hld|
@@ -53,28 +46,50 @@ module Cdl
     
     # ---------------------------------------------------
     def ==(other)
+      out = false
+      
       # If the item passed in is the correct type
-      if other.kind_of?(self.class)
-        out = false
-        
+      if other.kind_of?(Cdl::Bib)
         # Test each identifier until we find a match
-        @identifiers.each do |name|
-          my_var = instance_variable_get("@#{name}")
-          other_var = other.instance_variable_get("@#{name}")
+        other.pissns.each do |pissn|
+          out = true if @pissns.include?(pissn)
+        end
+        
+        other.eissns.each do |eissn|
+          out = true if @eissns.include?(eissn)
+        end
+        
+        other.lccns.each do |lccn|
+          out = true if @lccns.include?(lccn)
+        end
+        
+        other.oclc_numbers.each do |oclc_number|
+          out = true if @oclc_numbers.include?(oclc_number)
+        end
+      end
+      
+      out 
+    end
+    
+    # ---------------------------------------------------
+    def to_s
+      out, attr_prefix = "Cdl::Bib - \n", "    "
+      
+      self.instance_variables.each do |var|
+        if var.id2name.eql?("@holdings")
+          @holdings.each do |hldg|
+            out = out + hldg.to_s
+          end
           
-          unless other_var.nil?
-            my_var.values.each do |val|
-              out = other_var.values.include?(val) unless out
-            end
+        else
+          unless self.instance_variable_get("#{var}").empty?
+            out = out + attr_prefix + "#{var} => #{self.instance_variable_get("#{var}")}\n" 
           end
         end
-          
-        out
-        
-      else
-        false
       end
+      
+      out
     end
-     
+   
   end
 end

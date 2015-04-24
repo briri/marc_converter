@@ -25,13 +25,13 @@ module Cdl
 
       case @position
       when "first" # Return the 1st item
-        items.first
+        opts.first
     
       when "last" # Return the last item
-        items.last
+        opts.last
     
       else # Return the specified item if possible otherwise return the first item
-        items[@position.to_i].nil? ? items.first : items[@position.to_i]
+        opts[@position.to_i].nil? ? opts.first : opts[@position.to_i]
       end
       
     end
