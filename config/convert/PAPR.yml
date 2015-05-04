@@ -6,12 +6,14 @@ import:
   marc:
     titles:                  ['245$a', '245$b', '245$c', '246$a', '246$b']
     short_titles:            ['130$a', '240$a', '222$a', '222$b']
-    authors:                 ['700$a', '700$d']
+    authors:                 ['700$a$d']
+    author_dates:            ['700$a$d']
     gov_doc_values:          ['074$a', '086$a']
 
     corporate_names:         ['110$a', '110$b', '710$a', '710$b']
     publishers:              ['260$b']
     publication_histories:   ['362$a']
+    publication_years:       ['362$a']
 
     subjects:                ['650$ALL']
     lc_classes:              ['050$a', '050$b', '060$a', '060$b']
@@ -20,13 +22,22 @@ import:
     former_issns:            ['780$x', '785$x']
 
   # -------------------------------------------------------------
-  move_as_is:                ['005', '008', '010', '530', '580', '651', '655', '700', '776', '978']
+  move_as_is:                ['005', '008', '010', '530', '580', '651', '655', '776', '978']
 
   # -------------------------------------------------------------
   # conversion_rules definitions here do NOT OVERRIDE definition defined in the extended yml!
   conversion_rules:
     pissns:
-      matches:               '\d{4}-\d{4}'
+      matches:               '^\d{4}-\d{4}'
+
+    authors:
+      not_matches:           '^\d{4}|^-'
+
+    author_dates:
+      matches:               '^\d{4}-|^-\d{4}'
+
+    publication_years:
+      extract:               '\d{4}'
 
 # -------------------------------------------------------------
 export:
@@ -36,7 +47,7 @@ export:
     lccns:                   '010$a'
     pissns:                  '022$a'
     linking_issns:           '022$l'
-    holdings_record_id:      '035$a'
+    holdings_record_ids:     '035$a'
     lc_classes:              '050$a'
     gov_doc_values:          '074$a'
     corporate_names:         '110$a'
@@ -48,10 +59,10 @@ export:
     subjects:                '650$a'
     former_titles:           '780$t'
     former_issns:            '780$x'
-    oclc_symbol:             '852$a'
-    location_code:           '852$b'
-    holdings_statement:      '895$a'
-    local_catalog_id:        '901$a'
+    oclc_symbols:            '852$a'
+    location_codes:          '852$b'
+    holding_statements:      '895$a'
+    local_catalog_ids:       '901$a'
 
   # -------------------------------------------------------------
   # conversion_rules definitions here do NOT OVERRIDE definition defined in the extended yml!
@@ -103,10 +114,10 @@ export:
       specific_entry:        {'position': 'first', 
                               'order': ['050$ALL', '090$ALL']}
 
-    location_code:
+    location_codes:
       truncate:              32
 
-    oclc_symbol:
+    oclc_symbols:
       truncate:              16
 
     holdings_statements:

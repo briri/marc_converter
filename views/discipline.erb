@@ -1,0 +1,18 @@
+<section id="main_menu">
+  <h2><%= @discipline %></h2>
+  
+  <h4>We have learned the following about <%= @discipline %></h4>
+
+	<p>The following patterns have been found while observing <%= @discipline %> data:</p>
+	<ul>
+		<% if @memories.nil? %>
+			<li>No data has been observed for this discipline!</li>
+					
+		<% else %>
+			<% @memories.each do |memory| %>
+				<li title="Examples: <%= memory.examples.join("\n") %>"><%= memory.pattern %> has been observed <%= memory.occurences %> times</li>
+	  	<% end %>
+		<% end %>
+	</ul>
+  
+</section>

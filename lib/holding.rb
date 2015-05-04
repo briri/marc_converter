@@ -1,30 +1,52 @@
 module Cdl
   class Holding
   
-    attr_accessor :oclc_symbol, :location_code, :local_catalog_id, :holdings_record_id
+    attr_accessor :oclc_symbols, :location_codes, :local_catalog_ids, :holding_record_ids
     
-    attr_accessor :holdings_statement, :holdings_summary, :holdings_original
+    attr_accessor :holding_statements, :holding_summaries, :holding_years
     
-    attr_accessor :gaps_statement, :gaps_summary, :gaps_original
+    attr_accessor :gap_statements, :gap_summaries, :gap_years
+  
+    LEARNABLE = ["oclc_symbols", "local_catalog_ids", "holdings_record_ids", "holding_statements", "gap_statements"]
   
     # ---------------------------------------------------
     def initialize()
-      @oclc_symbol, @location_code, @local_catalog_id, @holdings_record_id = "", "", "", ""
+      @oclc_symbols, @location_codes, @local_catalog_ids, @holding_record_ids = [], [], [], []
       
-      @holdings_statement, @holdings_summary, @holdings_original = "", "", ""
+      @holding_statements, @holding_summaries, @holding_years = [], [], []
       
-      @gaps_statement, @gaps_summary, @gaps_original = "", "", ""
+      @gap_statements, @gap_summaries, @gap_years = [], [], []
     end
 
     # ---------------------------------------------------
     def ==(other)
       out = false
       
-      # If the item passed in is the correct type
+      # If the item passed has the same oclc symbol
       if other.kind_of?(Cdl.Holding)
-        out = other.oclc_symbol.eql?(@oclc_symbol) and other.location_code.eql?(@location_code)
+        other.oclc_symbols.each do |symb|
+          out = true if @oclc_symbols.include?(symb)
+        end
         
-        out = (other.local_catalog_id.eql?(@local_catalog_id) or other.holdings_record_id.eql?(@holdings_record_id)) if out
+        if out
+          # If the location code is also the same
+          other.location_codes.each do |code|
+            out = true if @location_codes.include?(code)
+          end
+        
+          if out
+            # If either of the identifiers also match
+            other.local_catalog_ids.each do |id|
+              out = true if @local_catalog_ids.include?(id)
+            end
+          
+            unless out
+              other.holdings_record_ids.each do |id|
+                out = true if @holdings_record_ids.include?(id)
+              end
+            end
+          end
+        end
         
         out
       end

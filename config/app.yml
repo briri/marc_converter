@@ -1,4 +1,3 @@
-
 rejection_types: 
   - 'fields'
   - 'leader'
@@ -6,6 +5,7 @@ rejection_types:
 processor_types: 
   - 'concatenate' 
   - 'constant'
+  - "extract"
   - 'matches'
   - 'missing_all'
   - 'not_matches'
@@ -13,3 +13,6 @@ processor_types:
   - 'specific_entry'
   - 'truncate'
 
+# Redis host and port are required
+redis_host: '127.0.0.1'
+redis_port: 6379

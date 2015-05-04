@@ -3,9 +3,9 @@ module Cdl
     
     attr_accessor :pissns, :eissns, :lccns, :oclc_numbers
 
-    attr_accessor :titles, :short_titles, :gov_doc_values
+    attr_accessor :titles, :short_titles, :authors, :author_dates, :gov_doc_values
     
-    attr_accessor :corporate_names, :publishers, :publication_histories
+    attr_accessor :corporate_names, :publishers, :publication_histories, :publication_years
   
     attr_accessor :subject_codes, :lc_classes, :subjects
     
@@ -13,11 +13,14 @@ module Cdl
     
     attr_accessor :holdings, :data_as_is
     
+    LEARNABLE = ["pissns", "eissns", "lccns", "oclc_numbers", "authors", "author_dates", "lc_classes", "subject_codes", 
+                 "linking_issns", "former_issns", "publication_years"]
+    
     # ---------------------------------------------------
     def initialize
       @pissns, @eissns, @lccns, @oclc_numbers = [], [], [], []
-      @titles, @short_titles, @gov_doc_values = [], [], []
-      @corporate_names, @publishers, @publication_histories = [], [], []
+      @titles, @short_titles, @authors, @author_dates, @gov_doc_values = [], [], [], [], []
+      @corporate_names, @publishers, @publication_histories, @publication_years = [], [], [], []
       @subject_codes, @lc_classes, @subjects = [], [], []
       
       @linking_issns, @former_issns, @former_titles = [], [], []

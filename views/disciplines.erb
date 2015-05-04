@@ -1,0 +1,17 @@
+<section id="main_menu">
+  <h2>Disciplines</h2>
+  
+  <h4>The following disciplines have been observered and studied by the Lyceum</h4>
+
+	<ul>
+		<% if @disciplines.nil? %>
+			<li>Hmmm the Lyceum appears to be empty :(</li>
+					
+		<% else %>
+			<% @disciplines.each do |disc| %>
+				<li><a href="/discipline/<%= disc %>"><%= disc%></a></li>
+	  	<% end %>
+		<% end %>
+	</ul>
+  
+</section>

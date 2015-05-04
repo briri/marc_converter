@@ -1,30 +1,31 @@
 module Cdl
-  class NotMatches
+  class Extract
     
     attr_accessor :regex
     
     # ------------------------------------------------
     def initialize(value)
-      @regex = value
+      @regex = /#{value}/
     end
     
     # ------------------------------------------------
-    def process(items)
-      if items.is_a?(Array)
-        out = []
-        
-        items.each do |item|
-          out << item.match(@regex).nil?
-        end
+    # Returns the item(s) if it matched and an empty string if it did not
+    def process(items)      
+      out = []
       
-        !out.include?(false)
+      if items.is_a?(Array)
+        items.each do |item|
+          out << item.scan(@regex).flatten
+        end
         
       elsif items.is_a?(String)
-        items.match(@regex).nil?
-      
+        out = items.scan(@regex).flatten#{|m| m.to_s}
+        
       else
-        items
+       out =  items
       end
+    
+      out.flatten
     end
     
   end

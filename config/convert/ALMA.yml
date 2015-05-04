@@ -2,14 +2,15 @@ extends: 'PAPR'
 
 import:
   marc:
-    local_catalog_id:    ['001']
+    local_catalog_ids:   ['001']
     oclc_numbers:        ['035$a']
-    location_code:       ['852$c']
-    holdings_statement:  ['863$i', '866$a', '863$a']
-    holdings_record_id:  ['978$a']
+    location_codes:      ['852$c']
+    holding_statements:  ['863$i', '866$a', '863$a']
+    holding_years:       ['863$i', '866$a', '863$a']
+    holding_record_ids:  ['978$a']
 
   # -------------------------------------------------------------
-  record_identifier:     'local_catalog_id'
+  record_identifier:     'local_catalog_ids'
 
   # -------------------------------------------------------------
   split_holdings_on:     ['852$c']
@@ -31,6 +32,9 @@ import:
     oclc_numbers:
       matches:            '^\(?[oO][cC]((oLC)|([mMnN]))\)?'
 
+    holding_years:
+      extract:               '\d{4}'
+
 export:
   # -------------------------------------------------------------
   conversion_rules:
@@ -40,5 +44,5 @@ export:
     subjects:
       specific_entry:     {'position': 'first'}
 
-    holdings_statement:
+    holding_statements:
       specific_entry:     {'position': 'first', 'order': ['863$i', '866$a', '863$a']}

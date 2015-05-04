@@ -18,7 +18,7 @@ module Cdl
           out << !item.match(@regex).nil?
         end
       
-        out
+        !out.include?(false)
         
       elsif items.is_a?(String)
         !items.match(@regex).nil?

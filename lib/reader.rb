@@ -66,11 +66,7 @@ private
           
           $conversion_config.import_mappings['marc'][marc_field.tag].each do |hash|
             unless bib.instance_variable_get("@#{hash[:target]}").nil?
-              vals = bib.instance_variable_get("@#{hash[:target]}")
-
-              vals = extract_values_from_marc(marc_field, vals)
-
-              bib.instance_variable_set("@#{hash[:target]}", vals)
+              extract_values_from_marc(bib, marc_field)
             end
           end
           
@@ -96,21 +92,7 @@ private
         if !$conversion_config.import_mappings['marc'][marc_field.tag].nil?
           
           $conversion_config.import_mappings['marc'][marc_field.tag].each do |hash|
-            unless holding.instance_variable_get("@#{hash[:target]}").nil?
-              value = holding.instance_variable_get("@#{hash[:target]}")
-            
-              if value.is_a?(String)
-                vals = [] 
-                vals << value unless value.eql?("")
-              
-              else
-                vals = value
-              end
-
-              vals = extract_values_from_marc(marc_field, vals)
-          
-              holding.instance_variable_set("@#{hash[:target]}", vals)
-            end
+            extract_values_from_marc(holding, marc_field)
           end
           
         end
@@ -164,46 +146,47 @@ private
     end
    
     # ----------------------------------------------------------------
-    def extract_values_from_marc(marc_field, current_vals)
-      out = current_vals
-      results = []
-
+    def extract_values_from_marc(obj, marc_field)
       #puts marc_field.inspect
       #puts "Current: #{current_vals}"
       
       $conversion_config.import_mappings['marc'][marc_field.tag].each do |hash|
+        unless obj.instance_variable_get("@#{hash[:target]}").nil?
+          out = obj.instance_variable_get("@#{hash[:target]}")
 
-        hash[:subfield].each do |sf|
-          # Control Field so just get the value
-          if sf.eql?("")
-            out << marc_field.value
+          hash[:subfield].each do |sf|
+            # Control Field so just get the value 
+            if sf.eql?("")
+              out << marc_field.value unless out.include?(marc_field.value)
             
-          elsif sf.eql?("ALL")
-            # Data Field but we should retrieve ALL the subfield values
-            marc_field.each do |subfield|
-              out << subfield.value
+            elsif sf.eql?("ALL")
+              # Data Field but we should retrieve ALL the subfield values
+              marc_field.each do |subfield|
+                out << subfield.value unless out.include?(subfield.value)
+              end
+            
+            else
+              # Data Field so get the specific subfield value
+              out << marc_field[sf] unless marc_field[sf].nil? or out.include?(marc_field[sf])
             end
-            
-          else
-            # Data Field so get the specific subfield value
-            out << marc_field[sf] unless marc_field[sf].nil?
           end
-        end
           
-        out.each do |val|
-          result = apply_processors('ALL', val)
+          results = []
+          out.each do |val|
+            result = apply_processors('ALL', val)
           
-          # If it passed the ALL test, pass it along to the specific subfield processors
-          if !results.include?(result) and !result.eql?("")
-            result = apply_processors(hash[:target], result)
+            # If it passed the ALL test, pass it along to the specific subfield processors
+            if !results.include?(result) and !result.eql?("")
+              result = apply_processors(hash[:target], result)
           
-            results << result if !results.include?(result) and !result.eql?("")
+              results << result if !results.include?(result) and !result.eql?("")
+            end
           end
+        
+          obj.instance_variable_set("@#{hash[:target]}", results)
         end
-                  
       end
       
-      results
     end
     
     # ----------------------------------------------------------------
@@ -232,14 +215,14 @@ private
       unless $conversion_config.import_conversion_rules[subfield].nil?
         $conversion_config.import_conversion_rules[subfield].each do |proc|
           result = proc.process(value)
-          
-          if result.is_a?(String)
-            # The processor transformed the value so use the transformed value
-            out = result
+
+          if !!result == result
+            # The processor has a true/false return so only keep the val if true
+            out = (result ? value : "")
             
           else
-            # Else the processor has a true/false return so only keep the val if true
-            out = (result ? value : "")
+            # The processor transformed the value so use the transformed value
+            out = result
           end
         end
         
