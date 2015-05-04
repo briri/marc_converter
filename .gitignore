@@ -1,5 +1,7 @@
 *.gem
 *.rbc
+*.log
+*.pid
 /.config
 /coverage/
 /InstalledFiles
@@ -30,6 +32,9 @@ build/
 # Gemfile.lock
 # .ruby-version
 # .ruby-gemset
+
+# Redis files should not be stored in the repo
+*.rdb
 
 # unless supporting rvm < 1.11.0 or doing something fancy, ignore this:
 .rvmrc
