@@ -1,0 +1,6 @@
+extends: 'ALMA'
+
+import:
+  conversion_rules:
+    oclc_symbol:
+      constant: {'value': 'XFF'}

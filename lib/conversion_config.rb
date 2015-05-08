@@ -49,8 +49,8 @@ module Cdl
             @move_as_is = definition
           
           # We need to merge separate bib and holdings into one record
-          when 'record_identifier'
-            @record_identifier = definition
+          when 'merge_records'
+            @merge_records = definition
             
           # We need to split combined bib and holdings into separate records 
           when 'split_holdings_on'
@@ -65,7 +65,7 @@ module Cdl
           when 'conversion_rules'
             definition.each do |attribute, rules|
               # If the attribute does not have any conversion rules, initialize the array
-              @import_conversion_rules[attribute] = [] if @import_conversion_rules[attribute].nil? 
+              @import_conversion_rules[attribute] = [] if @import_conversion_rules[attribute].nil? or rules['override']
               
               rules_to_processors(rules).each do |proc|
                 puts proc.gsub("{?}", "import") if proc.is_a?(String)
@@ -78,7 +78,8 @@ module Cdl
           when 'rejection_rules'
             definition.each do |type, rules|
               if $app_config['rejection_types'].include?(type)
-                @rejection_rules[type] = [] if @rejection_rules[type].nil?
+                # Define the array if it has not already been defined or we need to override!
+                @rejection_rules[type] = [] if @rejection_rules[type].nil? or rules['override']
           
                 rules_to_processors(rules).each do |proc|
                   puts proc.gsub("{?}", "rejection") if proc.is_a?(String)

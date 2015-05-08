@@ -4,8 +4,8 @@ require 'marc'
 require_relative './lib/conversion_config.rb'
 require_relative './lib/helper.rb'
 
-require_relative './lib/reader.rb'
-require_relative './lib/writer.rb'
+require_relative './lib/marc_reader.rb'
+require_relative './lib/marc_writer.rb'
 require_relative './lib/academy/study_hall.rb'
 
 # -----------------------------------------------------------------------
@@ -16,7 +16,8 @@ $conversion_config = Cdl::ConversionConfig.new(YAML.load_file("./config/convert/
 
 puts "Started: #{Time.now}."
 
-#puts $conversion_config.import_conversion_rules
+puts "Record Match Point: #{$conversion_config.record_merge_identifier}"
+puts "Rejection Rules: #{$conversion_config.rejection_rules}"
 
 reader = Cdl::MarcReader.new(ARGV[1])
 study_hall = Cdl::StudyHall.new(ARGV[1])

@@ -1,0 +1,11 @@
+extends: 'ALMA'
+
+import:
+  conversion_rules:
+    oclc_symbol:
+      constant: {'value': 'UUM'}
+
+    # oclc number starts with (OCoLC) or matches ocm/ocn
+    oclc_numbers:
+      override:           true
+      matches:            '^\(?[oO][cC]((oLC)|([mMnN])|[0-9]+)\)?'

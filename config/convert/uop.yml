@@ -1,0 +1,6 @@
+extends: 'ALEPH'
+
+import:
+  conversion_rules:
+    oclc_symbol:
+      constant: {'value': 'UOP'}

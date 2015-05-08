@@ -20,7 +20,27 @@ module Cdl
     def process
       @reader.each do |record|
         unless reject?(record)
-          bibs << marc_to_bib(record)
+          bib = marc_to_bib(record)
+          idx = nil
+
+          # If the config tells us to merge records, find the matching bib
+          if $conversion_config.record_merge_identifier
+            idx = bibs.find_index{|b| b == bib}
+              
+              #bib.instance_variable_get("@#{$conversion_config.record_merge_identifier}").each do |id|
+                #idx = bibs.find_index{|b| b.instance_variable_get("@#{$conversion_config.record_merge_identifier}").include?(id)} unless idx
+                #end
+              
+            #else
+          end
+          
+          # If there was no need to merge the bib, add it otherwise add the holdings to the existing bib
+          if idx.nil?
+            bibs << bib
+          else
+            bibs[idx] << bib.holdings
+          end
+          
         end
       end
     end

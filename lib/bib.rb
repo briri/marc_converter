@@ -1,7 +1,7 @@
 module Cdl
   class Bib
     
-    attr_accessor :pissns, :eissns, :lccns, :oclc_numbers
+    attr_accessor :pissns, :eissns, :lccns, :oclc_numbers, :local_catalog_ids
 
     attr_accessor :titles, :short_titles, :authors, :author_dates, :gov_doc_values
     
@@ -13,12 +13,12 @@ module Cdl
     
     attr_accessor :holdings, :data_as_is
     
-    LEARNABLE = ["pissns", "eissns", "lccns", "oclc_numbers", "authors", "author_dates", "lc_classes", "subject_codes", 
-                 "linking_issns", "former_issns", "publication_years"]
+    LEARNABLE = ["pissns", "eissns", "lccns", "oclc_numbers", "local_catalog_ids", "authors", "author_dates", 
+                 "lc_classes", "subject_codes", "linking_issns", "former_issns", "publication_years"]
     
     # ---------------------------------------------------
     def initialize
-      @pissns, @eissns, @lccns, @oclc_numbers = [], [], [], []
+      @pissns, @eissns, @lccns, @oclc_numbers, @local_catalog_ids = [], [], [], [], []
       @titles, @short_titles, @authors, @author_dates, @gov_doc_values = [], [], [], [], []
       @corporate_names, @publishers, @publication_histories, @publication_years = [], [], [], []
       @subject_codes, @lc_classes, @subjects = [], [], []
@@ -68,6 +68,10 @@ module Cdl
         
         other.oclc_numbers.each do |oclc_number|
           out = true if @oclc_numbers.include?(oclc_number)
+        end
+        
+        other.local_catalog_ids.each do |id|
+          out = true if @local_catalog_ids.include?(id)
         end
       end
       

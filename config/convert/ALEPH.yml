@@ -2,32 +2,35 @@ extends: 'PAPR'
 
 import:
   marc:
-    local_catalog_ids:   ['001']
+    local_catalog_ids:   ['004']
     oclc_numbers:        ['035$a']
-    location_codes:      ['852$c']
-    holding_statements:  ['863$i', '866$a', '863$a']
-    holding_years:       ['863$i', '866$a', '863$a']
-    holding_record_ids:  ['978$a']
+    location_codes:      ['945$l']
+    holding_statements:  ['945$u', '866$a']
+    holding_years:       ['945$u', '866$a']
+    holding_record_ids:  ['035$a', '866$a']
 
   # -------------------------------------------------------------
-  split_holdings_on:     ['852$c']
+  split_holdings_on:     ['945$l']
 
   # -------------------------------------------------------------
   rejection_rules:
-    # LDR/05 = d OR LDR/06-07 != as
+    # LDR/05 = d
     leader:
       matches:     '^.{5}[dD]'
-      not_matches: '^.{6}[aA][sS]'
 
-    # Missing 001, 022, AND 035
+    # Missing 004, 022, AND 035
     fields: 
-      missing_all: ['001', '035', '022']
+      missing_all: ['004', '035', '022']
 
   # -------------------------------------------------------------
   conversion_rules:
-    # oclc number starts with (OCoLC) or matches ocm/ocn
+    # oclc number starts with (OCoLC)
     oclc_numbers:
-      matches:            '^\(?[oO][cC]((oLC)|([mMnN]))\)?'
+      matches:            '^\([oO][cC][oO][lL][cC]\)'
+
+    # holding record ids start with b
+    holding_record_ids:
+      matches:            '^[bB]'
 
     holding_years:
       extract:               '\d{4}'
@@ -42,4 +45,4 @@ export:
       specific_entry:     {'position': 'first'}
 
     holding_statements:
-      specific_entry:     {'position': 'first', 'order': ['863$i', '866$a', '863$a']}
+      concatenate:        {delimiter: ', '}

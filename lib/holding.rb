@@ -1,17 +1,17 @@
 module Cdl
   class Holding
   
-    attr_accessor :oclc_symbols, :location_codes, :local_catalog_ids, :holding_record_ids
+    attr_accessor :oclc_symbols, :location_codes, :holding_record_ids
     
     attr_accessor :holding_statements, :holding_summaries, :holding_years
     
     attr_accessor :gap_statements, :gap_summaries, :gap_years
   
-    LEARNABLE = ["oclc_symbols", "local_catalog_ids", "holdings_record_ids", "holding_statements", "gap_statements"]
+    LEARNABLE = ["oclc_symbols", "holdings_record_ids", "holding_statements", "gap_statements"]
   
     # ---------------------------------------------------
     def initialize()
-      @oclc_symbols, @location_codes, @local_catalog_ids, @holding_record_ids = [], [], [], []
+      @oclc_symbols, @location_codes, @holding_record_ids = [], [], []
       
       @holding_statements, @holding_summaries, @holding_years = [], [], []
       
@@ -35,15 +35,8 @@ module Cdl
           end
         
           if out
-            # If either of the identifiers also match
-            other.local_catalog_ids.each do |id|
-              out = true if @local_catalog_ids.include?(id)
-            end
-          
-            unless out
-              other.holdings_record_ids.each do |id|
-                out = true if @holdings_record_ids.include?(id)
-              end
+            other.holdings_record_ids.each do |id|
+              out = true if @holdings_record_ids.include?(id)
             end
           end
         end

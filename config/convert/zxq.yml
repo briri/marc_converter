@@ -1,0 +1,13 @@
+extends: 'ALMA'
+
+import:
+  rejection_rules:
+    # LDR/05 = d
+    leader:
+      override:    true
+      matches:     '^.{5}[dD]'
+
+  # -------------------------------------------------------------
+  conversion_rules:
+    oclc_symbol:
+      constant: {'value': 'ZXQ'}
