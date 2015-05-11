@@ -4,7 +4,7 @@ require_relative 'bib.rb'
 require_relative 'holding.rb'
 
 module Cdl
-  class MarcReader
+  class MarcBinaryReader
    
     attr_accessor :rejections, :bibs
    

@@ -15,13 +15,13 @@ module Cdl
         out = []
         
         items.each do |item|
-          out << item.gsub(/@regex/, @value) unless item.nil?
+          out << item.gsub(/#{@regex}/, @value) unless item.nil?
         end
       
         out
         
       elsif items.is_a?(String)
-        items.gsub(/@regex/, @value)
+        items.gsub(/#{@regex}/, @value)
       
       else
         items
