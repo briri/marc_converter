@@ -7,6 +7,8 @@ module Cdl
     
     attr_accessor :gap_statements, :gap_summaries, :gap_years
   
+    attr_accessor :recorder
+    
     LEARNABLE = ["oclc_symbols", "holdings_record_ids", "holding_statements", "gap_statements"]
   
     # ---------------------------------------------------
@@ -16,6 +18,8 @@ module Cdl
       @holding_statements, @holding_summaries, @holding_years = [], [], []
       
       @gap_statements, @gap_summaries, @gap_years = [], [], []
+      
+      @recorder = {}
     end
 
     # ---------------------------------------------------

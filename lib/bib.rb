@@ -11,7 +11,7 @@ module Cdl
     
     attr_accessor :linking_issns, :former_issns, :former_titles
     
-    attr_accessor :holdings, :data_as_is
+    attr_accessor :holdings, :data_as_is, :recorder
     
     LEARNABLE = ["pissns", "eissns", "lccns", "oclc_numbers", "local_catalog_ids", "authors", "author_dates", 
                  "lc_classes", "subject_codes", "linking_issns", "former_issns", "publication_years"]
@@ -25,7 +25,7 @@ module Cdl
       
       @linking_issns, @former_issns, @former_titles = [], [], []
       
-      @holdings, @data_as_is = [], []
+      @holdings, @data_as_is, @recorder = [], [], {}
     end
     
     # ---------------------------------------------------

@@ -26,12 +26,6 @@ module Cdl
           # If the config tells us to merge records, find the matching bib
           if $conversion_config.record_merge_identifier
             idx = bibs.find_index{|b| b == bib}
-              
-              #bib.instance_variable_get("@#{$conversion_config.record_merge_identifier}").each do |id|
-                #idx = bibs.find_index{|b| b.instance_variable_get("@#{$conversion_config.record_merge_identifier}").include?(id)} unless idx
-                #end
-              
-            #else
           end
           
           # If there was no need to merge the bib, add it otherwise add the holdings to the existing bib
@@ -173,6 +167,7 @@ private
       $conversion_config.import_mappings['marc'][marc_field.tag].each do |hash|
         unless obj.instance_variable_get("@#{hash[:target]}").nil?
           out = obj.instance_variable_get("@#{hash[:target]}")
+          recorder = obj.recorder
 
           hash[:subfield].each do |sf|
             # Control Field so just get the value 
@@ -187,7 +182,14 @@ private
             
             else
               # Data Field so get the specific subfield value
-              out << marc_field[sf] unless marc_field[sf].nil? or out.include?(marc_field[sf])
+              unless marc_field[sf].nil? or out.include?(marc_field[sf])
+                out << marc_field[sf] 
+                
+                # Add the field+subfield << value - this is used when exporting if the config requires hierarchical
+                # selection of values (e.g. if the record has no 866$a then use 863$i. If no 863$i use 863$a)
+                recorder["#{marc_field.tag}$#{sf}"] = [] if recorder["#{marc_field.tag}$#{sf}"].nil?
+                recorder["#{marc_field.tag}$#{sf}"] << marc_field[sf]
+              end
             end
           end
           

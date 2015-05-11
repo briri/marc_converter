@@ -22,7 +22,8 @@ import:
     former_issns:            ['780$x', '785$x']
 
   # -------------------------------------------------------------
-  move_as_is:                ['005', '008', '010', '530', '580', '651', '655', '776', '978']
+  # These will be moved as is when exporting to MARC unless they are mapped from the bib/holding attributes
+  move_as_is:                ['005', '008', '010', '530', '580', '651', '655', '776', '852', '863', '866', '895', '978']
 
   # -------------------------------------------------------------
   # conversion_rules definitions here do NOT OVERRIDE definition defined in the extended yml!
